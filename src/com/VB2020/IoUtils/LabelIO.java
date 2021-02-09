@@ -1,4 +1,4 @@
-package com.VB2020.ioutils;
+package com.VB2020.IoUtils;
 
 import com.VB2020.model.Label;
 import com.VB2020.view.LabelView;

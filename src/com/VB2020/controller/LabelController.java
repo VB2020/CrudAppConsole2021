@@ -1,6 +1,6 @@
 package com.VB2020.controller;
 
-import com.VB2020.ioutils.LabelIO;
+import com.VB2020.IoUtils.LabelIO;
 import com.VB2020.model.Label;
 import com.VB2020.repository.impl.LabelRepositoryImpl;
 import com.VB2020.view.ForConsole;

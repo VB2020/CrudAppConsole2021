@@ -1,6 +1,6 @@
 package com.VB2020.repository.impl;
 
-import com.VB2020.ioutils.IoUtils;
+import com.VB2020.IoUtils.IoUtils;
 import com.VB2020.model.Writer;
 import com.VB2020.repository.WriterRepository;
 import com.VB2020.view.WriterView;
@@ -18,7 +18,7 @@ public class WriterRepositoryImpl implements WriterRepository {
     @Override
     public Writer getById(Integer id) throws FileNotFoundException {
         List<Writer> writers = getAllInternal();
-        return writers.stream().filter(a -> a.getId() == id).findFirst().orElse(new Writer());
+        return writers.stream().filter(any_writer -> any_writer.getId() == id).findFirst().orElse(new Writer());
     }
 
     @Override
@@ -36,12 +36,12 @@ public class WriterRepositoryImpl implements WriterRepository {
         List<Writer> writers = getAllInternal();
         AtomicBoolean flag = new AtomicBoolean(false);
         try{
-            writers.forEach((a) -> {
-                if (a.getId() == writer.getId()) {
-                    a.setId(writer.getId());
-                    a.setFirstName(writer.getFirstName());
-                    a.setLastName(writer.getLastName());
-                    a.setPostsList(writer.getPostsList());
+            writers.forEach((any_writer) -> {
+                if (any_writer.getId() == writer.getId()) {
+                    any_writer.setId(writer.getId());
+                    any_writer.setFirstName(writer.getFirstName());
+                    any_writer.setLastName(writer.getLastName());
+                    any_writer.setPostsList(writer.getPostsList());
                     flag.set(true);
                 }
             });
@@ -59,10 +59,10 @@ public class WriterRepositoryImpl implements WriterRepository {
     @Override
     public void deleteById(Integer id) throws Exception {
         List<Writer> writers = getAllInternal();
-        writers.forEach((a) ->
+        writers.forEach((any_writer) ->
         {
-            if (a.getId() == id) {
-                a.setLastName(WriterView.dell);
+            if (any_writer.getId() == id) {
+                any_writer.setLastName(WriterView.deleted);
             }
         });
         IoUtils.writeToFile(writers, fileName);

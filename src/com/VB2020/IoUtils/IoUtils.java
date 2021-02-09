@@ -1,12 +1,9 @@
-package com.VB2020.ioutils;
+package com.VB2020.IoUtils;
 
 import java.io.*;
 import java.util.List;
 
 public class IoUtils {
-
-
-
 
     public static <T> void writeToFile(List<T> data, File filename)  {
         try (ObjectOutputStream oStream = new ObjectOutputStream(new FileOutputStream(filename)))

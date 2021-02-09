@@ -6,7 +6,7 @@ import com.VB2020.model.PostStatus;
 import java.util.List;
 
 public class PostView {
-    public static final String dell = "This post was deleted";
+    public static final String deleted = "This post was deleted";
     public static void show(){
         System.out.println(ForConsole.BORDER.getMessage());
         String mainMessage = "Choose an action with posts:\n" +
@@ -63,18 +63,18 @@ public class PostView {
         System.out.println(ForConsole.BORDER.getMessage());
         System.out.println("Posts list:");
         System.out.println(ForConsole.BORDER.getMessage());
-        posts.stream().filter((a) -> !a.getPostStatus().equals(PostStatus.DELETED)).forEach(
-                (a) -> System.out.println("Id: " + a.getId() + " | Content: " + a.getContent() +
-                        " | Created: " + a.getCreated() + " | Updated: " + a.getUpdated())
+        posts.stream().filter((any_post) -> !any_post.getPostStatus().equals(PostStatus.DELETED)).forEach(
+                (any_post) -> System.out.println("Id: " + any_post.getId() + " | Content: " + any_post.getContent() +
+                        " | Created: " + any_post.getCreated() + " | Updated: " + any_post.getUpdated())
         );
     }
 
-    public static void showPost(Post a){
+    public static void showPost(Post any_post){
         System.out.println(ForConsole.BORDER.getMessage());
         System.out.println("Post:");
         System.out.println(ForConsole.BORDER.getMessage());
-        System.out.println("Id: " + a.getId() + " | Content: " + a.getContent() +
-                " | Created: " + a.getCreated() + " | Updated: " + a.getUpdated());
+        System.out.println("Id: " + any_post.getId() + " | Content: " + any_post.getContent() +
+                " | Created: " + any_post.getCreated() + " | Updated: " + any_post.getUpdated());
     }
 
     public static void listEmpty(){

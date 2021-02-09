@@ -5,7 +5,7 @@ import com.VB2020.model.Writer;
 import java.util.List;
 
 public class WriterView {
-    public static final String dell = "This writer was deleted";
+    public static final String deleted = "This writer was deleted";
 
     public static void show(){
         System.out.println(ForConsole.BORDER.getMessage());
@@ -50,7 +50,7 @@ public class WriterView {
 
     public static void showWritersList(List<Writer> writers){
         System.out.println(ForConsole.BORDER.getMessage());
-        writers.stream().filter((a) -> !a.getLastName().equals(WriterView.dell)).forEach(
+        writers.stream().filter((any_writer) -> !any_writer.getLastName().equals(WriterView.deleted)).forEach(
                 (a) -> System.out.println("Id: " + a.getId() + " | Firstname: " + a.getFirstName() +
                         " | Lastname: " + a.getLastName() )
         );

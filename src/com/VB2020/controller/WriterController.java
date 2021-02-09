@@ -1,8 +1,8 @@
 package com.VB2020.controller;
 
-import com.VB2020.ioutils.LabelIO;
-import com.VB2020.ioutils.PostIO;
-import com.VB2020.ioutils.WriterIO;
+import com.VB2020.IoUtils.LabelIO;
+import com.VB2020.IoUtils.PostIO;
+import com.VB2020.IoUtils.WriterIO;
 import com.VB2020.model.Label;
 import com.VB2020.model.Post;
 import com.VB2020.model.PostStatus;
@@ -114,7 +114,7 @@ public class WriterController {
         //экземпляр с пометкой dell, здесь это и делается + часный случай когда
         //в списке пусто до добавления (maxID = 0 )
         if (demonId != 0){
-            if (wR.getById(demonId).getLastName().equals(WriterView.dell)){
+            if (wR.getById(demonId).getLastName().equals(WriterView.deleted)){
                 wR.save(newWriter);
                 wR.getById(demonId);
             }
@@ -139,7 +139,7 @@ public class WriterController {
                 WriterView.editId();
                 int id = sc.nextInt();
                 Writer writer = wR.getById(id);
-                if (id > 0 && demonId >= id && !writer.getLastName().equals(WriterView.dell)){
+                if (id > 0 && demonId >= id && !writer.getLastName().equals(WriterView.deleted)){
                     WriterView.showFirstName();
                     String fName = sc.next();
                     writer.setFirstName(fName);
@@ -206,7 +206,7 @@ public class WriterController {
                 WriterView.editId();
                 int id = sc.nextInt();
                 Writer writer = wR.getById(id);
-                if (id > 0 && demonId >= id && !writer.getLastName().equals(WriterView.dell)
+                if (id > 0 && demonId >= id && !writer.getLastName().equals(WriterView.deleted)
                 && WriterIO.containWriter(writers, writer)){
                     if (!writer.getPostsList().isEmpty()) {
                         WriterView.showWriter(writer);
@@ -249,7 +249,7 @@ public class WriterController {
                 WriterView.editId();
                 int id = sc.nextInt();
                 Writer writer = wR.getById(id);
-                if (id > 0 && demonId >= id && !writer.getLastName().equals(WriterView.dell)
+                if (id > 0 && demonId >= id && !writer.getLastName().equals(WriterView.deleted)
                         && WriterIO.containWriter(writers, writer)) {
                     do {
                         if (!writer.getPostsList().isEmpty()) {

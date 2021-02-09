@@ -1,4 +1,4 @@
-package com.VB2020.ioutils;
+package com.VB2020.IoUtils;
 
 import com.VB2020.model.Post;
 import com.VB2020.model.Writer;

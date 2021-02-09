@@ -1,6 +1,6 @@
 package com.VB2020.repository.impl;
 
-import com.VB2020.ioutils.IoUtils;
+import com.VB2020.IoUtils.IoUtils;
 import com.VB2020.model.Post;
 import com.VB2020.model.PostStatus;
 import com.VB2020.repository.PostRepository;
@@ -19,7 +19,7 @@ public class PostRepositoryImpl implements PostRepository {
     @Override
     public Post getById(Integer id) throws FileNotFoundException {
         List<Post> posts = getAllInternal();
-        return posts.stream().filter(a -> a.getId() == id).findFirst().orElse(new Post());
+        return posts.stream().filter(any_post -> any_post.getId() == id).findFirst().orElse(new Post());
     }
 
     @Override
@@ -37,13 +37,13 @@ public class PostRepositoryImpl implements PostRepository {
         List<Post> posts = getAllInternal();
         AtomicBoolean flag = new AtomicBoolean(false);
         try{
-            posts.forEach((a) -> {
-                if (a.getId() == post.getId()) {
-                    a.setId(post.getId());
-                    a.setContent(post.getContent());
-                    a.setUpdated(new Date().toString());
-                    a.setPostLabelList(post.getPostLabelList());
-                    a.setPostStatus(PostStatus.ACTIVE);
+            posts.forEach((any_post) -> {
+                if (any_post.getId() == post.getId()) {
+                    any_post.setId(post.getId());
+                    any_post.setContent(post.getContent());
+                    any_post.setUpdated(new Date().toString());
+                    any_post.setPostLabelList(post.getPostLabelList());
+                    any_post.setPostStatus(PostStatus.ACTIVE);
                     flag.set(true);
                 }
             });
@@ -61,11 +61,11 @@ public class PostRepositoryImpl implements PostRepository {
     @Override
     public void deleteById(Integer id) throws Exception {
         List<Post> posts = getAllInternal();
-        posts.forEach((a) ->
+        posts.forEach((any_post) ->
         {
-            if (a.getId() == id) {
-                a.setUpdated(new Date().toString());
-                a.setPostStatus(PostStatus.DELETED);
+            if (any_post.getId() == id) {
+                any_post.setUpdated(new Date().toString());
+                any_post.setPostStatus(PostStatus.DELETED);
             }
         });
         IoUtils.writeToFile(posts, fileName);

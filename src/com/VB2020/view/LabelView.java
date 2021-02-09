@@ -44,9 +44,9 @@ public class LabelView {
         System.out.println(ForConsole.BORDER.getMessage());
         System.out.println("Labels list:");
         System.out.println(ForConsole.BORDER.getMessage());
-        labels.stream().filter((a) -> !a.getName().equals(LabelView.deleted)).sorted(
+        labels.stream().filter((any_label) -> !any_label.getName().equals(LabelView.deleted)).sorted(
                 Comparator.comparing(Label::getId)).forEach(
-                (a) -> System.out.println("Id: " + a.getId() + " | Name: " + a.getName())
+                (any_label) -> System.out.println("Id: " + any_label.getId() + " | Name: " + any_label.getName())
         );
     }
 

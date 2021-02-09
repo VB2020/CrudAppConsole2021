@@ -1,7 +1,7 @@
 package com.VB2020.repository.impl;
 
-import com.VB2020.ioutils.IoUtils;
-import com.VB2020.ioutils.LabelIO;
+import com.VB2020.IoUtils.IoUtils;
+import com.VB2020.IoUtils.LabelIO;
 import com.VB2020.model.Label;
 import com.VB2020.repository.LabelRepository;
 import com.VB2020.view.LabelView;
@@ -19,7 +19,7 @@ public class LabelRepositoryImpl implements LabelRepository {
     @Override
     public Label getById(Integer id) throws FileNotFoundException {
         List<Label> labels = getAllInternal();
-        return labels.stream().filter(a -> a.getId() == id).findFirst().orElse(new Label());
+        return labels.stream().filter(any_label -> any_label.getId() == id).findFirst().orElse(new Label());
     }
 
     @Override
@@ -37,10 +37,10 @@ public class LabelRepositoryImpl implements LabelRepository {
         List<Label> labels = getAllInternal();
         AtomicBoolean flag = new AtomicBoolean(false);
         try{
-            labels.forEach((a) -> {
-                if (a.getId() == label.getId()) {
-                    a.setId(label.getId());
-                    a.setName(label.getName());
+            labels.forEach((any_label) -> {
+                if (any_label.getId() == label.getId()) {
+                    any_label.setId(label.getId());
+                    any_label.setName(label.getName());
                     flag.set(true);
                 }
             });
@@ -59,14 +59,14 @@ public class LabelRepositoryImpl implements LabelRepository {
     public void deleteById(Integer id) throws Exception {
         List<Label> labels = getAllInternal();
         if (LabelIO.getMaxId(labels) == id) {
-            labels.forEach((a) ->
+            labels.forEach((any_label) ->
             {
-                if (a.getId() == id) {
-                    a.setName(LabelView.deleted);
+                if (any_label.getId() == id) {
+                    any_label.setName(LabelView.deleted);
                 }
             });
         } else {
-            labels.removeIf((a) -> a.getId() == id);
+            labels.removeIf((any_label) -> any_label.getId() == id);
         }
         IoUtils.writeToFile(labels, fileName);
     }
