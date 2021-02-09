@@ -1,4 +1,4 @@
-package com.VB2020.service;
+package com.VB2020.ioutils;
 
 import com.VB2020.model.Post;
 import com.VB2020.model.Writer;
@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class WriterService {
+public class WriterIO {
     public static int getMaxId(List<Writer> t){
         int maxId;
         if(t.isEmpty()){

@@ -1,12 +1,12 @@
 package com.VB2020.controller;
 
+import com.VB2020.ioutils.LabelIO;
+import com.VB2020.ioutils.PostIO;
 import com.VB2020.model.Label;
 import com.VB2020.model.Post;
 import com.VB2020.model.PostStatus;
 import com.VB2020.repository.impl.LabelRepositoryImpl;
 import com.VB2020.repository.impl.PostRepositoryImpl;
-import com.VB2020.service.LabelService;
-import com.VB2020.service.PostService;
 import com.VB2020.view.ForConsole;
 import com.VB2020.view.LabelView;
 import com.VB2020.view.PostView;
@@ -60,27 +60,25 @@ public class PostController {
         boolean isExit = false;
         PostView.create();
         String name = sc.next();
-        int demonId = PostService.getMaxId(pR.getAll());
+        int demonId = PostIO.getMaxId(pR.getAll());
         Post newPost = new Post(demonId + 1, name);
         newPost.setPostLabelList(new ArrayList<>());
         try {
             do {
                 PostView.showAddLabel();
-                int ca = sc.nextInt();
-                switch (ca){
+                int id = sc.nextInt();
+                switch (id){
                     case 1:
                         try {
                             List<Label> labels = lR.getAll();
-                            //������ ������� ������� ����� �������� � ����� �����
-                            //(��� ��� ������� ��� ���� � ���������)
-                            LabelView.showLabelsList(LabelService.delLabel(labels, newPost.getPostLabelList()));
+                            LabelView.showLabelsList(LabelIO.delLabel(labels, newPost.getPostLabelList()));
                             LabelView.editId();
                             int labelId = sc.nextInt();
-                            int maxId = LabelService.getMaxId(labels);
+                            int maxId = LabelIO.getMaxId(labels);
                             if (labelId > 0 && labelId <= maxId) {
                                 Label label = lR.getById(labelId);
-                                if (!label.getName().equals(LabelView.dell) &&
-                                        !LabelService.containLabel(newPost.getPostLabelList(), label)) {
+                                if (!label.getName().equals(LabelView.deleted) &&
+                                        !LabelIO.containLabel(newPost.getPostLabelList(), label)) {
                                     newPost.getPostLabelList().add(label);
                                 }
                                 else {
@@ -114,7 +112,7 @@ public class PostController {
         boolean isExit = false;
         List<Post> posts = pR.getAll();
         PostView.showPostsList(posts);
-        int demonId = PostService.getMaxId(posts);
+        int demonId = PostIO.getMaxId(posts);
         try {
             do {
                 PostView.editId();
@@ -144,7 +142,7 @@ public class PostController {
         boolean isExit = false;
         List<Post> posts = pR.getAll();
         PostView.showPostsList(posts);
-        int demonId = PostService.getMaxId(posts);
+        int demonId = PostIO.getMaxId(posts);
         try {
             do {
                 PostView.editId();
@@ -172,7 +170,7 @@ public class PostController {
         boolean isExit = false;
         List<Post> posts = pR.getAll();
         PostView.showPostsList(posts);
-        int demonId = PostService.getMaxId(posts);
+        int demonId = PostIO.getMaxId(posts);
         try{
             do {
                 PostView.editId();
@@ -181,7 +179,7 @@ public class PostController {
                 if (id > 0 && demonId >= id && !post.getPostStatus().equals(PostStatus.DELETED)){
                     if (!post.getPostLabelList().isEmpty()) {
                         PostView.showPost(post);
-                        LabelView.showLabelsList(LabelService.notDelLabel(lR.getAll(), post.getPostLabelList()));
+                        LabelView.showLabelsList(LabelIO.notDelLabel(lR.getAll(), post.getPostLabelList()));
                         isExit = true;
                     }
                     else{
@@ -208,8 +206,8 @@ public class PostController {
         List<Post> posts = pR.getAll();
         List<Label> labels = lR.getAll();
         PostView.showPostsList(posts);
-        int demonId = PostService.getMaxId(posts);
-        int maxId = LabelService.getMaxId(labels);
+        int demonId = PostIO.getMaxId(posts);
+        int maxId = LabelIO.getMaxId(labels);
         try{
             do {
                 PostView.editId();
@@ -221,7 +219,7 @@ public class PostController {
                         System.out.println(ForConsole.BORDER.getMessage());
                         System.out.println("This post contain labels:");
                         if (!post.getPostLabelList().isEmpty()) {
-                            LabelView.showLabelsList(LabelService.notDelLabel(labels, post.getPostLabelList()));
+                            LabelView.showLabelsList(LabelIO.notDelLabel(labels, post.getPostLabelList()));
                         } else {
                             PostView.listEmpty();
                         }
@@ -229,7 +227,7 @@ public class PostController {
                         System.out.println("You can add this labels:");
                         List<Label> tmpList = new ArrayList<>();
                         labels.forEach((a) -> {
-                            if (!LabelService.containLabel(post.getPostLabelList(), a)) {
+                            if (!LabelIO.containLabel(post.getPostLabelList(), a)) {
                                 tmpList.add(a);
                             }
                         });
@@ -238,7 +236,7 @@ public class PostController {
                         LabelView.editId();
                         int labelId = sc.nextInt();
                         Label newLabel = lR.getById(labelId);
-                        if (labelId > 0 && labelId <= maxId && LabelService.containLabel(tmpList, newLabel)) {
+                        if (labelId > 0 && labelId <= maxId && LabelIO.containLabel(tmpList, newLabel)) {
                             post.getPostLabelList().add(newLabel);
                         } else if (labelId == 0) {
                             pR.save(post);

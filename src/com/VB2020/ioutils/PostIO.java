@@ -1,4 +1,4 @@
-package com.VB2020.service;
+package com.VB2020.ioutils;
 
 import com.VB2020.model.Post;
 import com.VB2020.model.PostStatus;
@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class PostService {
+public class PostIO {
     public static int getMaxId(List<Post> t){
         int maxId;
         if(t.isEmpty()){

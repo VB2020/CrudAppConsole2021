@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class LabelView {
-    public static final String dell = "This label was deleted";
+    public static final String deleted = "This label was deleted";
 
     public static void show(){
             System.out.println(ForConsole.BORDER.getMessage());
@@ -44,7 +44,7 @@ public class LabelView {
         System.out.println(ForConsole.BORDER.getMessage());
         System.out.println("Labels list:");
         System.out.println(ForConsole.BORDER.getMessage());
-        labels.stream().filter((a) -> !a.getName().equals(LabelView.dell)).sorted(
+        labels.stream().filter((a) -> !a.getName().equals(LabelView.deleted)).sorted(
                 Comparator.comparing(Label::getId)).forEach(
                 (a) -> System.out.println("Id: " + a.getId() + " | Name: " + a.getName())
         );

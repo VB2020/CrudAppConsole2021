@@ -1,9 +1,9 @@
 package com.VB2020.repository.impl;
 
 import com.VB2020.ioutils.IoUtils;
+import com.VB2020.ioutils.LabelIO;
 import com.VB2020.model.Label;
 import com.VB2020.repository.LabelRepository;
-import com.VB2020.service.LabelService;
 import com.VB2020.view.LabelView;
 
 import java.io.File;
@@ -58,11 +58,11 @@ public class LabelRepositoryImpl implements LabelRepository {
     @Override
     public void deleteById(Integer id) throws Exception {
         List<Label> labels = getAllInternal();
-        if (LabelService.getMaxId(labels) == id) {
+        if (LabelIO.getMaxId(labels) == id) {
             labels.forEach((a) ->
             {
                 if (a.getId() == id) {
-                    a.setName(LabelView.dell);
+                    a.setName(LabelView.deleted);
                 }
             });
         } else {

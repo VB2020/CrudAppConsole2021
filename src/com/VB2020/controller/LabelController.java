@@ -1,8 +1,8 @@
 package com.VB2020.controller;
 
+import com.VB2020.ioutils.LabelIO;
 import com.VB2020.model.Label;
 import com.VB2020.repository.impl.LabelRepositoryImpl;
-import com.VB2020.service.LabelService;
 import com.VB2020.view.ForConsole;
 import com.VB2020.view.LabelView;
 
@@ -57,9 +57,9 @@ public class LabelController {
         LabelRepositoryImpl lR = new LabelRepositoryImpl();
         LabelView.create();
         String name = sc.next();
-        int demonId = LabelService.getMaxId(lR.getAll());
+        int demonId = LabelIO.getMaxId(lR.getAll());
         if (demonId != 0) {
-            if (lR.getById(demonId).getName().equals(LabelView.dell)) {
+            if (lR.getById(demonId).getName().equals(LabelView.deleted)) {
                 lR.save(new Label(demonId + 1, name));
                 lR.deleteById(demonId);
             }
@@ -83,10 +83,10 @@ public class LabelController {
                 LabelView.editId();
                 try {
                     int id = sc.nextInt();
-                    int maxId = LabelService.getMaxId(labels);
+                    int maxId = LabelIO.getMaxId(labels);
                     if (id > 0 && id <= maxId) {
                         Label label = lR.getById(id);
-                        if (!label.getName().equals(LabelView.dell)) {
+                        if (!label.getName().equals(LabelView.deleted)) {
                             LabelView.editName();
                             String name = sc.next();
                             label.setName(name);
@@ -117,9 +117,9 @@ public class LabelController {
                 LabelView.editId();
                 try{
                     int id = sc.nextInt();
-                    int maxId = LabelService.getMaxId(labels);
+                    int maxId = LabelIO.getMaxId(labels);
                     Label label = lR.getById(id);
-                    if (id > 0 && id <= maxId && !label.getName().equals(LabelView.dell)) {
+                    if (id > 0 && id <= maxId && !label.getName().equals(LabelView.deleted)) {
                         lR.deleteById(id);
                         isExit = true;
                     }

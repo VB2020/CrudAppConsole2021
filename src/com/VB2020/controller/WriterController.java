@@ -1,5 +1,8 @@
 package com.VB2020.controller;
 
+import com.VB2020.ioutils.LabelIO;
+import com.VB2020.ioutils.PostIO;
+import com.VB2020.ioutils.WriterIO;
 import com.VB2020.model.Label;
 import com.VB2020.model.Post;
 import com.VB2020.model.PostStatus;
@@ -7,9 +10,6 @@ import com.VB2020.model.Writer;
 import com.VB2020.repository.impl.LabelRepositoryImpl;
 import com.VB2020.repository.impl.PostRepositoryImpl;
 import com.VB2020.repository.impl.WriterRepositoryImpl;
-import com.VB2020.service.LabelService;
-import com.VB2020.service.PostService;
-import com.VB2020.service.WriterService;
 import com.VB2020.view.ForConsole;
 import com.VB2020.view.LabelView;
 import com.VB2020.view.PostView;
@@ -66,7 +66,7 @@ public class WriterController {
         boolean isExit = false;
         WriterView.showFirstName();
         String fName = sc.next();
-        int demonId = WriterService.getMaxId(wR.getAll());
+        int demonId = WriterIO.getMaxId(wR.getAll());
         Writer newWriter = new Writer(demonId + 1, fName, "");
         WriterView.showLastName();
         String lName = sc.next();
@@ -80,14 +80,14 @@ public class WriterController {
                     case 1:
                         try {
                             List<Post> posts = pR.getAll();
-                            PostView.showPostsList(PostService.delPosts(posts, newWriter.getPostsList()));
+                            PostView.showPostsList(PostIO.delPosts(posts, newWriter.getPostsList()));
                             PostView.editId();
                             int pId = sc.nextInt();
-                            int maxId = PostService.getMaxId(posts);
+                            int maxId = PostIO.getMaxId(posts);
                             if (pId > 0 && pId <= maxId) {
                                 Post post = pR.getById(pId);
                                 if (!post.getPostStatus().equals(PostStatus.DELETED) &&
-                                        !PostService.containPost(newWriter.getPostsList(), post)) {
+                                        !PostIO.containPost(newWriter.getPostsList(), post)) {
                                     newWriter.getPostsList().add(post);
                                 }
                                 else {
@@ -133,7 +133,7 @@ public class WriterController {
         boolean isExit = false;
         List<Writer> writers = wR.getAll();
         WriterView.showWritersList(writers);
-        int demonId = WriterService.getMaxId(writers);
+        int demonId = WriterIO.getMaxId(writers);
         try {
             do {
                 WriterView.editId();
@@ -171,9 +171,9 @@ public class WriterController {
                 WriterView.editId();
                 try{
                     int id = sc.nextInt();
-                    int maxId = WriterService.getMaxId(writers);
+                    int maxId = WriterIO.getMaxId(writers);
                     Writer writer = wR.getById(id);
-                    if (id > 0 && id <= maxId && !writer.getLastName().equals(LabelView.dell)) {
+                    if (id > 0 && id <= maxId && !writer.getLastName().equals(LabelView.deleted)) {
                         wR.deleteById(id);
                         isExit = true;
                     }
@@ -200,21 +200,21 @@ public class WriterController {
         List<Post> posts = pR.getAll();
         List<Label> labels = lR.getAll();
         WriterView.showWritersList(writers);
-        int demonId = WriterService.getMaxId(writers);
+        int demonId = WriterIO.getMaxId(writers);
         try{
             do {
                 WriterView.editId();
                 int id = sc.nextInt();
                 Writer writer = wR.getById(id);
                 if (id > 0 && demonId >= id && !writer.getLastName().equals(WriterView.dell)
-                && WriterService.containWriter(writers, writer)){
+                && WriterIO.containWriter(writers, writer)){
                     if (!writer.getPostsList().isEmpty()) {
                         WriterView.showWriter(writer);
                         //Проверка что посты у писателя содержатся в общем списке постов (не удалены)
-                        List<Post> tmpPostList = PostService.notDelPosts(posts, writer.getPostsList());
+                        List<Post> tmpPostList = PostIO.notDelPosts(posts, writer.getPostsList());
                         tmpPostList.forEach((a) -> {
                             PostView.showPost(a);
-                            LabelView.showLabelsList(LabelService.notDelLabel(labels, a.getPostLabelList()));
+                            LabelView.showLabelsList(LabelIO.notDelLabel(labels, a.getPostLabelList()));
                         });
                         isExit = true;
                     }
@@ -242,24 +242,24 @@ public class WriterController {
         List<Writer> writers = wR.getAll();
         List<Post> posts = pR.getAll();
         WriterView.showWritersList(writers);
-        int demonId = WriterService.getMaxId(writers);
-        int maxId = PostService.getMaxId(posts);
+        int demonId = WriterIO.getMaxId(writers);
+        int maxId = PostIO.getMaxId(posts);
         try{
             do {
                 WriterView.editId();
                 int id = sc.nextInt();
                 Writer writer = wR.getById(id);
                 if (id > 0 && demonId >= id && !writer.getLastName().equals(WriterView.dell)
-                        && WriterService.containWriter(writers, writer)) {
+                        && WriterIO.containWriter(writers, writer)) {
                     do {
                         if (!writer.getPostsList().isEmpty()) {
                             WriterView.showWriter(writer);
                             System.out.println(ForConsole.BORDER.getMessage());
                             System.out.println("This writer contains:");
-                            PostView.showPostsList(PostService.notDelPosts(posts, writer.getPostsList()));
+                            PostView.showPostsList(PostIO.notDelPosts(posts, writer.getPostsList()));
                             System.out.println(ForConsole.BORDER.getMessage());
                             System.out.println("You can add this posts:");
-                            PostView.showPostsList(PostService.delPosts(posts, writer.getPostsList()));
+                            PostView.showPostsList(PostIO.delPosts(posts, writer.getPostsList()));
                         } else {
                             WriterView.showWriter(writer);
                             WriterView.listEmpty();
@@ -271,8 +271,8 @@ public class WriterController {
                         PostView.editId();
                         int postId = sc.nextInt();
                         Post newPost = pR.getById(postId);
-                        if (postId > 0 && postId <= maxId && !PostService.containPost(writer.getPostsList(), newPost)) {
-                            WriterService.addPost(writer.getPostsList(), newPost);
+                        if (postId > 0 && postId <= maxId && !PostIO.containPost(writer.getPostsList(), newPost)) {
+                            WriterIO.addPost(writer.getPostsList(), newPost);
                         } else if (postId == 0) {
                             wR.save(writer);
                             isExit = true;

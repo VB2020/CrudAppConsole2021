@@ -8,4 +8,5 @@ public interface GenericRepository<T, ID> {
     List<T> getAll() throws FileNotFoundException;
     void save(T t) throws FileNotFoundException;
     void deleteById(ID id) throws FileNotFoundException, Exception;
+    //void update(T t) throws Exception;
 }

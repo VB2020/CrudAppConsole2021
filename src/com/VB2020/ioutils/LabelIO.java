@@ -1,4 +1,4 @@
-package com.VB2020.service;
+package com.VB2020.ioutils;
 
 import com.VB2020.model.Label;
 import com.VB2020.view.LabelView;
@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class LabelService {
+public class LabelIO {
     public static int getMaxId(List<Label> t){
         int maxId;
         if(t.isEmpty()){
@@ -33,14 +33,14 @@ public class LabelService {
 
       public static List<Label> delLabel(List<Label> l1, List<Label> l2){
         List<Label> res = new ArrayList<>();
-        l1.stream().filter((a) -> !containLabel(l2, a)).filter((a) -> !a.getName().equals(LabelView.dell))
+        l1.stream().filter((a) -> !containLabel(l2, a)).filter((a) -> !a.getName().equals(LabelView.deleted))
         .forEach((a) -> res.add(a));
         return res;
     }
 
       public static List<Label> notDelLabel(List<Label> l1, List<Label> l2){
         List<Label> res = new ArrayList<>();
-        l1.stream().filter((a) -> containLabel(l2, a)).filter((a) -> !a.getName().equals(LabelView.dell))
+        l1.stream().filter((a) -> containLabel(l2, a)).filter((a) -> !a.getName().equals(LabelView.deleted))
                 .forEach((a) -> res.add(a));
         return res;
     }
