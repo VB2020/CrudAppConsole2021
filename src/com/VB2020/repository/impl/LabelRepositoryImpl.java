@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LabelRepositoryImpl implements LabelRepository {
     File fileName = new File("./src/com/VB2020/resource/Labels.txt");
@@ -35,18 +34,8 @@ public class LabelRepositoryImpl implements LabelRepository {
     @Override
     public void save(Label label) throws FileNotFoundException {
         List<Label> labels = getAllInternal();
-        AtomicBoolean flag = new AtomicBoolean(false);
-        try{
-            labels.forEach((any_label) -> {
-                if (any_label.getId() == label.getId()) {
-                    any_label.setId(label.getId());
-                    any_label.setName(label.getName());
-                    flag.set(true);
-                }
-            });
-            if (!flag.get()){
-                labels.add(label);
-            }
+        try {
+            labels.add(label);
             IoUtils.writeToFile(labels, fileName);
         }
         catch (Exception er){
@@ -69,6 +58,25 @@ public class LabelRepositoryImpl implements LabelRepository {
             labels.removeIf((any_label) -> any_label.getId() == id);
         }
         IoUtils.writeToFile(labels, fileName);
+    }
+
+    @Override
+    public void update(Label label) throws FileNotFoundException {
+        List<Label> labels = getAllInternal();
+         try{
+            labels.forEach((any_label) -> {
+                if (any_label.getId() == label.getId()) {
+                    any_label.setId(label.getId());
+                    any_label.setName(label.getName());
+                }
+            });
+                labels.add(label);
+            IoUtils.writeToFile(labels, fileName);
+        }
+        catch (Exception er){
+            System.out.println("Id not exist");
+        }
+
     }
 
     private List<Label> getAllInternal() throws FileNotFoundException {

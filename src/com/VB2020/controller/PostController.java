@@ -122,7 +122,7 @@ public class PostController {
                     PostView.editName();
                     String content = sc.next();
                     post.setContent(content);
-                    pR.save(post);
+                    pR.update(post);
                     isExit = true;
                 }
                 else {
@@ -239,7 +239,7 @@ public class PostController {
                         if (labelId > 0 && labelId <= maxId && LabelIO.containLabel(tmpList, newLabel)) {
                             post.getPostLabelList().add(newLabel);
                         } else if (labelId == 0) {
-                            pR.save(post);
+                            pR.update(post);
                             isExit = true;
                         } else {
                             System.out.println("Id not exist !!!!");

@@ -146,7 +146,7 @@ public class WriterController {
                     WriterView.showLastName();
                     String lName = sc.next();
                     writer.setLastName(lName);
-                    wR.save(writer);
+                    wR.update(writer);
                     isExit = true;
                 }
                 else {
@@ -274,7 +274,7 @@ public class WriterController {
                         if (postId > 0 && postId <= maxId && !PostIO.containPost(writer.getPostsList(), newPost)) {
                             WriterIO.addPost(writer.getPostsList(), newPost);
                         } else if (postId == 0) {
-                            wR.save(writer);
+                            wR.update(writer);
                             isExit = true;
                         } else {
                             System.out.println("Id not exist !!!!");

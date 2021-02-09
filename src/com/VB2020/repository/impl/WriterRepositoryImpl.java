@@ -68,6 +68,26 @@ public class WriterRepositoryImpl implements WriterRepository {
         IoUtils.writeToFile(writers, fileName);
     }
 
+    @Override
+    public void update(Writer writer) throws FileNotFoundException {
+        List<Writer> writers = getAllInternal();
+         try{
+            writers.forEach((any_writer) -> {
+                if (any_writer.getId() == writer.getId()) {
+                    any_writer.setId(writer.getId());
+                    any_writer.setFirstName(writer.getFirstName());
+                    any_writer.setLastName(writer.getLastName());
+                    any_writer.setPostsList(writer.getPostsList());
+                }
+            });
+            writers.add(writer);
+            IoUtils.writeToFile(writers, fileName);
+        }
+        catch (Exception er){
+            System.out.println("Id not exist");
+        }
+    }
+
     public List<Writer> getAllInternal() throws FileNotFoundException {
         if (Objects.isNull(IoUtils.readFromFile(fileName))){
             return new ArrayList<>();

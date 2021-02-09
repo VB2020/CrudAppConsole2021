@@ -9,22 +9,22 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LabelIO {
-    public static int getMaxId(List<Label> t){
+    public static int getMaxId(List<Label> labels){
         int maxId;
-        if(t.isEmpty()){
+        if(labels.isEmpty()){
             maxId = 0;
         }
         else {
-            t.sort(Comparator.comparing(Label::getId));
-            maxId = t.get(t.size() - 1).getId();;
+            labels.sort(Comparator.comparing(Label::getId));
+            maxId = labels.get(labels.size() - 1).getId();;
         }
         return maxId;
     }
 
-    public static boolean containLabel(List<Label> labelList, Label label){
+    public static boolean containLabel(List<Label> labels, Label label){
         AtomicBoolean flag = new AtomicBoolean(false);
-        labelList.forEach((a) -> {
-            if (a.getId() == label.getId()){
+        labels.forEach((any_label) -> {
+            if (any_label.getId() == label.getId()){
                 flag.set(true);
             }
         });

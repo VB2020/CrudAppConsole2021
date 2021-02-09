@@ -90,7 +90,7 @@ public class LabelController {
                             LabelView.editName();
                             String name = sc.next();
                             label.setName(name);
-                            lR.save(label);
+                            lR.update(label);
                             isExit = true;
                         }
                         else {

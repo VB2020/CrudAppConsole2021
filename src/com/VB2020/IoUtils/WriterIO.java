@@ -8,22 +8,22 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WriterIO {
-    public static int getMaxId(List<Writer> t){
+    public static int getMaxId(List<Writer> writers){
         int maxId;
-        if(t.isEmpty()){
+        if(writers.isEmpty()){
             maxId = 0;
         }
         else {
-            t.sort(Comparator.comparing(Writer::getId));
-            maxId = t.get(t.size() - 1).getId();;
+            writers.sort(Comparator.comparing(Writer::getId));
+            maxId = writers.get(writers.size() - 1).getId();;
         }
         return maxId;
     }
 
-    public static boolean containWriter(List<Writer> writerList, Writer writer){
+    public static boolean containWriter(List<Writer> writers, Writer writer){
         AtomicBoolean flag = new AtomicBoolean(false);
-        writerList.forEach((a) -> {
-            if (a.getId() == writer.getId()){
+        writers.forEach((any_writer) -> {
+            if (any_writer.getId() == writer.getId()){
                 flag.set(true);
             }
         });

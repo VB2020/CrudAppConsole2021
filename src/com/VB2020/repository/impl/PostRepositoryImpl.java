@@ -71,6 +71,28 @@ public class PostRepositoryImpl implements PostRepository {
         IoUtils.writeToFile(posts, fileName);
     }
 
+    @Override
+    public void update(Post post) throws FileNotFoundException {
+        List<Post> posts = getAllInternal();
+         try{
+            posts.forEach((any_post) -> {
+                if (any_post.getId() == post.getId()) {
+                    any_post.setId(post.getId());
+                    any_post.setContent(post.getContent());
+                    any_post.setUpdated(new Date().toString());
+                    any_post.setPostLabelList(post.getPostLabelList());
+                    any_post.setPostStatus(PostStatus.ACTIVE);
+                }
+            });
+                posts.add(post);
+            IoUtils.writeToFile(posts, fileName);
+        }
+        catch (Exception er){
+            System.out.println("Id not exist");
+        }
+
+    }
+
     private List<Post> getAllInternal() throws FileNotFoundException {
         if (Objects.isNull(IoUtils.readFromFile(fileName))){
             return new ArrayList<>();
