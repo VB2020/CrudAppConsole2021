@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PostRepositoryImpl implements PostRepository {
@@ -17,23 +18,23 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public Post getById(Integer id) throws FileNotFoundException {
-        List<Post> posts = getAll();
+        List<Post> posts = getAllInternal();
         return posts.stream().filter(a -> a.getId() == id).findFirst().orElse(new Post());
     }
 
     @Override
     public List<Post> getAll() throws FileNotFoundException {
-        if (IoUtils.ReadFromFile(fileName) == null){
+        if (Objects.isNull(IoUtils.readFromFile(fileName))){
             return new ArrayList<>();
         }
         else{
-            return IoUtils.ReadFromFile(fileName);
+            return IoUtils.readFromFile(fileName);
         }
     }
 
     @Override
     public void save(Post post) throws FileNotFoundException {
-        List<Post> posts = getAll();
+        List<Post> posts = getAllInternal();
         AtomicBoolean flag = new AtomicBoolean(false);
         try{
             posts.forEach((a) -> {
@@ -49,7 +50,7 @@ public class PostRepositoryImpl implements PostRepository {
             if (!flag.get()){
                 posts.add(post);
             }
-            IoUtils.WriteToFile(posts, fileName);
+            IoUtils.writeToFile(posts, fileName);
         }
         catch (Exception er){
             System.out.println("Id not exist");
@@ -59,7 +60,7 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public void deleteById(Integer id) throws Exception {
-        List<Post> posts = getAll();
+        List<Post> posts = getAllInternal();
         posts.forEach((a) ->
         {
             if (a.getId() == id) {
@@ -67,7 +68,18 @@ public class PostRepositoryImpl implements PostRepository {
                 a.setPostStatus(PostStatus.DELETED);
             }
         });
-        IoUtils.WriteToFile(posts, fileName);
+        IoUtils.writeToFile(posts, fileName);
     }
+
+    private List<Post> getAllInternal() throws FileNotFoundException {
+        if (Objects.isNull(IoUtils.readFromFile(fileName))){
+            return new ArrayList<>();
+        }
+        else{
+            return IoUtils.readFromFile(fileName);
+        }
+    }
+
+
 }
 
